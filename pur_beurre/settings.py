@@ -9,13 +9,27 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 
 import os
 
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
 TEMPLATE_DIR = os.path.join(BASE_DIR, 'templates')
-STATIC_DIR = os.path.join(BASE_DIR, 'pur_beurre/static')
+# STATIC_DIR = os.path.join(BASE_DIR, 'pur_beurre/static')
+STATIC_DIR = [
+        os.path.join(PROJECT_ROOT, 'static'),
+    ]
+
 STATIC_ROOT = os.path.join(PROJECT_ROOT, 'staticfiles')
 
-SECRET_KEY = '5ou3c3sfmsfqhxt0r!da0wlfq^*-&&pvg#c7eks8!(9l=zf(0r'
+def get_env_variable(var_name):
+    """Get the environment variable or return exception."""
+    try:
+        return os.environ[var_name]
+    except KeyError:
+        error_msg = 'Set the {} environment variable'.format(var_name)
+        raise ImproperlyConfigured(error_msg)
+
+# Alternate this line in prod env:
+#SECRET_KEY = get_env_variable('SECRET_KEY')
+SECRET_KEY = 'not-so-important'
 
 DEBUG = True
 
@@ -69,20 +83,10 @@ WSGI_APPLICATION = 'pur_beurre.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'purbeurre',
-        'USER': 'gil',
-        'PASSWORD': '',
-        'HOST': '',
-        'PORT': '5432',
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-#     }
-# }
 
 AUTH_PASSWORD_VALIDATORS = [
     {

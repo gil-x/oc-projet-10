@@ -4,6 +4,8 @@ pur_beurre/__pycache__
 
 /log/error.log
 
+/pur_beurre/settings-all
+
 /htmlcov
 /venv
 /.vscode
