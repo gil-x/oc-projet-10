@@ -5,6 +5,7 @@ pur_beurre/__pycache__
 /log/error.log
 
 /pur_beurre/settings-all
+/pur_beurre/settings/production.py
 
 /htmlcov
 /venv

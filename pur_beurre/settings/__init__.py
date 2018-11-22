@@ -9,15 +9,15 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 
 import os
 
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 TEMPLATE_DIR = os.path.join(BASE_DIR, 'templates')
 # STATIC_DIR = os.path.join(BASE_DIR, 'pur_beurre/static')
 STATIC_DIR = [
         os.path.join(PROJECT_ROOT, 'static'),
     ]
 
-STATIC_ROOT = os.path.join(PROJECT_ROOT, 'staticfiles')
+# STATIC_ROOT = os.path.join(PROJECT_ROOT, 'staticfiles')
 
 def get_env_variable(var_name):
     """Get the environment variable or return exception."""
@@ -118,12 +118,12 @@ STATICFILES_DIRS = [
         os.path.join(PROJECT_ROOT, 'static'),
     ]
 
-print("""
-DEBUG: {}
-BASE_DIR: {}
-PROJECT_ROOT: {}
-TEMPLATE_DIR: {}
-STATIC_ROOT: {}
-STATICFILES_DIRS: {}
-""".format(DEBUG, BASE_DIR, PROJECT_ROOT,
-TEMPLATE_DIR, STATIC_ROOT, STATICFILES_DIRS))
+# print("""
+# DEBUG: {}
+# BASE_DIR: {}
+# PROJECT_ROOT: {}
+# TEMPLATE_DIR: {}
+# STATIC_ROOT: {}
+# STATICFILES_DIRS: {}
+# """.format(DEBUG, BASE_DIR, PROJECT_ROOT,
+# TEMPLATE_DIR, STATIC_ROOT, STATICFILES_DIRS))
