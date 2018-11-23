@@ -5,7 +5,7 @@ if (window.location.href.substr(0, 22) == "http://127.0.0.1:8000/") {
     base_url = "http://127.0.0.1:8000";
 }
 else {
-    base_url = "https://purb.herokuapp.com";
+    base_url = "http://51.158.69.199";
 }
 
 
