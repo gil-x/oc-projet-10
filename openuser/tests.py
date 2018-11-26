@@ -1,6 +1,7 @@
 from django.test import RequestFactory, TestCase, Client
 from django.contrib.auth.models import AnonymousUser, User
 from .models import Profile
+from openfood.models import Category, Product
 from django.contrib.auth import authenticate
 from django.core.urlresolvers import reverse
 from .views import add_to_favorites, remove_from_favorites
@@ -20,8 +21,25 @@ class ProfileTests(TestCase):
         new_profile = Profile()
         new_profile.user = new_user
         new_profile.save()
+
+        new_category = Category.objects.get_or_create(
+                    category_name="spam",
+                )
+
+        new_product = Product()
+        new_product.product_name = "egg"
+        new_product.grade = "a"
+        new_product.url = "http://eggs"
+        new_product.barcode = "0123456789123"
+        new_product.brand = "pythonic"
+        new_product.store = "Spam Store"
+        new_product.product_img_url = "http://eggs/picture.png"
+
+        new_product.save()
+
         self.factory = RequestFactory()
         self.user = new_user
+        self.product = new_product
    
     def test_user_creation(self):
         """
@@ -67,7 +85,8 @@ class ProfileTests(TestCase):
         response = remove_from_favorites(request, 1)
         self.assertEqual(response.status_code, 302)
 
-    def test_remove_from_favorites_user_authenticated(self):
+    def test_remove_from_favorites_user_authenticated(self, pk=1):
+        self.user.profile.products.add(self.product)
         request = self.factory.get('/mon-espace/remove-product/1/')
         request.user = self.user
         response = remove_from_favorites(request, 1)

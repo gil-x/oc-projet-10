@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponseRedirect
 from django.urls import reverse_lazy
 from django.contrib.auth import authenticate, login, logout
@@ -105,6 +105,11 @@ def add_to_favorites(request, pk):
     if product_to_add:
         context['response'] = "Y a un produit."
         request.user.profile.products.add(product_to_add)
+        product_to_add.favorized += 1
+        product_to_add.save()
+        # print(get_object_or_404(Product, pk=product_to_add.pk))
+        # get_object_or_404(Product, pk=product_to_add.pk).update(favorized=9)
+        
     else:
         context['response'] = "Y a PAS d'produit !"
     return render(request, 'openuser/favorites.html', context)
@@ -114,5 +119,8 @@ def remove_from_favorites(request, pk):
     context = {}
     product_to_remove = request.user.profile.products.filter(pk=pk).first()
     request.user.profile.products.remove(product_to_remove)
+    if product_to_remove.favorized > 0:
+        product_to_remove.favorized -= 1
+        product_to_remove.save()
     context['to_delete'] = product_to_remove
     return render(request, 'openuser/favorites.html', context)

@@ -95,6 +95,9 @@ class Collector:
         self.register()
         print("{} products registered in database.".format(len(self.products)))
 
+    def empty(self):
+        Product.objects.filter(favorized=0).delete()
+
 
 
 class Command(BaseCommand):
@@ -103,4 +106,5 @@ class Command(BaseCommand):
     """
     def handle(self, *args, **options):
         collector = Collector()
+        collector.empty()
         collector.populate()

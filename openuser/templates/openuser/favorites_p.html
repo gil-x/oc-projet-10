@@ -14,7 +14,7 @@
             <div class="grade-{{ favorite.grade }}">
                 <p><strong>{{ favorite.product_name }}</strong></p>
                 <img src={{ favorite.product_img_url }} alt="" title="" />
-                <p><a href={% url 'product_view' pk=favorite.id %} target="_blank">» Fiche produit</a></p>
+                <p><a href={% url 'product_view' pk=favorite.id %}>» Fiche produit</a></p>
                 <br>
                 <p><button class="favorite-remove btn btn-danger" product_id={{ favorite.id }}>Retirer des favoris</button></p>
             </div>

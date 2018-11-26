@@ -20,6 +20,9 @@
                 <p><strong> Marque : </strong>{{ product.brand }}</p>
                 <p><small>En vente à {{ product.store }}.</small></p>
                 <p><a href="{{ product.url }}" target="_blank">» Voir sur OpenFoodFacts.org</a></p>
+                {% if product.favorized != 0 %}
+                    <p>Ce produit est apprécié par {{ product.favorized }} membre(s).</p>
+                {% endif %}
                 {% if user.is_authenticated %}
                     {% if fav %}
                     <p><button class="favorite-remove btn btn-danger" product_id={{ product.id }}>Retirer des favoris</button></p>

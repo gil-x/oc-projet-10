@@ -51,6 +51,7 @@ class Product(models.Model):
     store = models.CharField(max_length=255)
     categories = models.ManyToManyField(Category, related_name='products', through='Position')
     product_img_url = models.CharField(max_length=255, null=True)
+    favorized = models.IntegerField(default=0)
     objects = ProductManager()
 
     def __str__(self):
