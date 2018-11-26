@@ -20,5 +20,7 @@ pur_beurre/__pycache__
 db.sqlite3
 /log
 log.txt
+/refresh_logs/*
+
 
 .coverage

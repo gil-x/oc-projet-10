@@ -1,6 +1,9 @@
 from django.core.management.base import BaseCommand, CommandError
 from openfood.models import Product, Category, Position
 from django.db import models
+from datetime import datetime
+
+import sys
 import requests
 
 
@@ -14,7 +17,7 @@ class Collector:
 
     def __init__(self, url="https://fr.openfoodfacts.org/cgi/search.pl",
             number_by_grade=[
-                ('a', 10), ('b', 10), ('c', 10), ('d', 10), ('e', 10)
+                ('a', 150), ('b', 150), ('c', 150), ('d', 150), ('e', 150)
                 ],
                 categories=[
                     "Salty snacks", "Cheeses", "Beverage", "Sauces",
@@ -96,15 +99,40 @@ class Collector:
         print("{} products registered in database.".format(len(self.products)))
 
     def empty(self):
-        Product.objects.filter(favorized=0).delete()
+        products_to_delete = Product.objects.filter(favorized=0)
+        products_to_delete_number = len(products_to_delete)
+        total_products = len(Product.objects.all())
+        
+        products_to_delete.delete()
+        print("-\n{} deleted on a total of {}.-\n".format(
+                products_to_delete_number,
+                total_products,
+                )
+            )
+
+
+        
 
 
 
 class Command(BaseCommand):
     """
-    Django command to initialize data.
+    Django command to refresh data.
     """
     def handle(self, *args, **options):
         collector = Collector()
+
+        orig_stdout = sys.stdout
+
+        filename = 'refresh_logs/{}.txt'.format(datetime.strftime(datetime.now(), "%d-%m-%Y@%H-%M-%S"))
+        log = open(filename, 'w')
+        sys.stdout = log
+
+        print("Operation started at {}.-\n".format(datetime.strftime(datetime.now(), "%H:%M:%S")))
+
         collector.empty()
         collector.populate()
+
+        print("-\nOperation ended at {}.".format(datetime.strftime(datetime.now(), "%H:%M:%S")))
+
+        sys.stdout = orig_stdout
