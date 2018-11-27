@@ -128,7 +128,7 @@ class Command(BaseCommand):
         log = open(filename, 'w')
         sys.stdout = log
 
-        print("Operation started at {}.-\n".format(datetime.strftime(datetime.now(), "%H:%M:%S")))
+        print("Operation started at {}.\n-".format(datetime.strftime(datetime.now(), "%H:%M:%S")))
 
         collector.empty()
         collector.populate()
