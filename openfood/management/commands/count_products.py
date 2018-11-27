@@ -41,7 +41,7 @@ class Command(BaseCommand):
         
         counter = Counter(logfile)
 
-        # counter.write_to_log("Operation started at {}.\n*****".format(datetime.strftime(datetime.now(), "%H:%M:%S")))
+        counter.write_to_log("Operation started at {}.\n*****".format(datetime.strftime(datetime.now(), "%H:%M:%S")))
         counter.count()
         counter.write_to_log("*****\nOperation ended at {}.".format(datetime.strftime(datetime.now(), "%H:%M:%S")))
 
