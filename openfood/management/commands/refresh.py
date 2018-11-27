@@ -124,7 +124,11 @@ class Command(BaseCommand):
 
         orig_stdout = sys.stdout
 
-        filename = 'refresh_logs/{}.txt'.format(datetime.strftime(datetime.now(), "%d-%m-%Y@%H-%M-%S"))
+        if isWindows():
+            filename = 'refresh_logs/{}.txt'.format(datetime.strftime(datetime.now(), "%d-%m-%Y@%H-%M-%S"))
+        else:
+            filename = '/home/gil/oc-projet-10/refresh_logs/{}.txt'.format(datetime.strftime(datetime.now(), "%d-%m-%Y@%H-%M-%S"))
+        
         log = open(filename, 'w')
         sys.stdout = log
 
