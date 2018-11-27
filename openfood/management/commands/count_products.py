@@ -11,44 +11,37 @@ class Counter:
     """
     Just count products and write it on a log file.
     """
-
-    def __init__(self):
-        pass
+    def __init__(self, logfile):
+        self.logfile = logfile
 
     def count(self):
         total = len(Product.objects.all())
         favorites = len(Product.objects.exclude(favorized=0))
         no_favorites = len(Product.objects.filter(favorized=0))
 
-        print("There is {} products registered in database:".format(total))
-        print("\t- {} of them are registered as favorites.".format(favorites))
-        print("\t- {} are not registered as favorites.".format(no_favorites))
+        self.write_to_log("There are {} products registered in database:".format(total))
+        self.write_to_log("\t- {} of them are registered as favorites.".format(favorites))
+        self.write_to_log("\t- {} are not registered as favorites.".format(no_favorites))
 
-        
-
+    def write_to_log(self, text):
+        log = open(self.logfile, 'a')
+        log.write(text + "\n")
+        log.close()
 
 
 class Command(BaseCommand):
     """
-    Django command to refresh data.
+    Django command to count products.
     """
     def handle(self, *args, **options):
-        counter = Counter()
-
-        orig_stdout = sys.stdout
-
         if 'win' in sys.platform:
-            filename = 'refresh_logs/product-count-{}.txt'.format(datetime.strftime(datetime.now(), "%d-%m-%Y@%H-%M-%S"))
+            logfile = 'refresh_logs/product-count-{}.txt'.format(datetime.strftime(datetime.now(), "%d-%m-%Y@%H-%M-%S"))
         else:
-            filename = '/home/gil/oc-projet-10/refresh_logs/product-count-{}.txt'.format(datetime.strftime(datetime.now(), "%d-%m-%Y@%H-%M-%S"))
+            logfile = '/home/gil/oc-projet-10/refresh_logs/product-count-{}.txt'.format(datetime.strftime(datetime.now(), "%d-%m-%Y@%H-%M-%S"))
         
-        log = open(filename, 'w')
-        sys.stdout = log
+        counter = Counter(logfile)
 
-        print("Operation started at {}.\n-".format(datetime.strftime(datetime.now(), "%H:%M:%S")))
-
+        counter.write_to_log("Operation started at {}.\n*****".format(datetime.strftime(datetime.now(), "%H:%M:%S")))
         counter.count()
+        counter.write_to_log("*****\nOperation ended at {}.".format(datetime.strftime(datetime.now(), "%H:%M:%S")))
 
-        print("-\nOperation ended at {}.".format(datetime.strftime(datetime.now(), "%H:%M:%S")))
-
-        sys.stdout = orig_stdout
