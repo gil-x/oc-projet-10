@@ -124,7 +124,7 @@ class Command(BaseCommand):
 
         orig_stdout = sys.stdout
 
-        if isWindows():
+        if 'win' in sys.platform:
             filename = 'refresh_logs/{}.txt'.format(datetime.strftime(datetime.now(), "%d-%m-%Y@%H-%M-%S"))
         else:
             filename = '/home/gil/oc-projet-10/refresh_logs/{}.txt'.format(datetime.strftime(datetime.now(), "%d-%m-%Y@%H-%M-%S"))
