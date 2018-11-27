@@ -21,6 +21,6 @@ db.sqlite3
 /log
 log.txt
 /refresh_logs/*.txt
-
+debug.log
 
 .coverage
