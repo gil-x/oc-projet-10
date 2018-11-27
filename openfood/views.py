@@ -17,7 +17,7 @@ def get_products(request):
         q = request.GET.get('term', '')
         print("x" + q + "x")
         products = Product.objects.filter(
-            Q(product_name__startswith = q) &
+            Q(product_name__istartswith = q) &
             (Q(grade='e') | Q(grade='d') | Q(grade='c') | Q(grade='b'))
             ).order_by('product_name')[:10]
         results = []
